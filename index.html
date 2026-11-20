@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Light It Up Program</title>
+<meta name="description" content="Run of show for Light It Up! 2026 at Plaza Frida, Little Rock.">
+<link rel="icon" href="assets/light-it-up-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0d1410; --panel:#16201a; --panel2:#1d2a22; --line:#2b3b31;
+  --text:#f4efe4; --muted:#a9b3aa; --gold:#f2c66d;
+  --green:#3fa34d; --red:#e0352b; --white:#ffffff;
+  --radius:14px;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--text);font:15px/1.5 Inter,system-ui,sans-serif;
+  background-image:radial-gradient(circle at 15% -10%,rgba(242,198,109,.16),transparent 40%),radial-gradient(circle at 90% 10%,rgba(224,53,43,.10),transparent 35%);
+  background-attachment:fixed;min-height:100vh}
+button,input,select,textarea{font:inherit;color:inherit}
+.wrap{max-width:980px;margin:0 auto;padding:0 16px 120px}
+
+/* header */
+header.hero{display:flex;gap:22px;align-items:center;padding:28px 0 18px}
+.hero img{width:132px;height:132px;flex:none;filter:drop-shadow(0 8px 30px rgba(242,198,109,.25))}
+.hero h1{font:800 clamp(28px,5vw,42px)/1.05 "Playfair Display",serif;margin:0}
+.hero h1 .g{color:var(--green)} .hero h1 .r{color:var(--red)}
+.hero .tag{color:var(--gold);font-weight:600;margin:6px 0 10px}
+.meta{display:flex;flex-wrap:wrap;gap:8px 18px;color:var(--muted);font-size:14px}
+.meta b{color:var(--text);font-weight:600}
+.evnotes{color:var(--muted);font-size:13.5px;margin:10px 0 0;max-width:62ch}
+
+/* toolbar */
+.bar{position:sticky;top:0;z-index:20;display:flex;gap:8px;align-items:center;flex-wrap:wrap;
+  padding:10px 0;background:linear-gradient(var(--bg) 75%,transparent)}
+.tabs{display:flex;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:3px}
+.tabs button{border:0;background:none;padding:7px 14px;border-radius:999px;cursor:pointer;color:var(--muted);font-weight:600}
+.tabs button.on{background:var(--text);color:#111}
+.spacer{flex:1}
+.btn{border:1px solid var(--line);background:var(--panel);padding:8px 14px;border-radius:999px;cursor:pointer;font-weight:600;white-space:nowrap}
+a.btn{text-decoration:none;color:var(--text)}
+.btn:hover{border-color:var(--gold)}
+.btn.primary{background:var(--green);border-color:var(--green);color:#fff}
+.btn.danger{color:#ff8a80}
+.btn.sm{padding:5px 10px;font-size:13px}
+.summary{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 18px}
+.chip{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:13px;color:var(--muted)}
+.chip b{display:block;color:var(--text);font-size:17px}
+
+/* sections */
+h2{font:700 13px/1 Inter;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin:26px 0 12px}
+.ongoing{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.og{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px}
+.og .t{font-weight:700} .og .w{color:var(--gold);font-size:12.5px;font-weight:600}
+.og .d{color:var(--muted);font-size:13.5px;margin-top:4px}
+.og .o{font-size:12.5px;color:var(--muted);margin-top:6px}
+
+/* cue rows */
+.cues{display:flex;flex-direction:column;gap:8px}
+.cue{display:grid;grid-template-columns:108px 1fr auto;gap:14px;align-items:start;background:var(--panel);
+  border:1px solid var(--line);border-left:5px solid var(--c,var(--line));border-radius:var(--radius);padding:13px 16px}
+.cue.lighting{background:linear-gradient(100deg,rgba(242,198,109,.18),var(--panel) 60%);border-color:rgba(242,198,109,.5)}
+.time{font-variant-numeric:tabular-nums;font-weight:700;font-size:16px}
+.time small{display:block;color:var(--muted);font-weight:500;font-size:12.5px}
+.ctitle{font-weight:700;font-size:16px}
+.who{color:var(--gold);font-weight:600;font-size:14px}
+.type{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--c);margin-bottom:2px}
+.script{margin-top:8px;padding:8px 12px;border-left:2px solid var(--gold);background:rgba(242,198,109,.06);border-radius:0 8px 8px 0;font-style:italic;white-space:pre-wrap}
+.notes{color:var(--muted);font-size:13.5px;margin-top:6px;white-space:pre-wrap}
+.right{text-align:right;display:flex;flex-direction:column;gap:6px;align-items:flex-end}
+.mins{font-weight:700;font-variant-numeric:tabular-nums}
+.pill{font-size:11px;font-weight:700;padding:3px 8px;border-radius:999px;text-transform:uppercase;letter-spacing:.05em}
+.pill.confirmed{background:rgba(63,163,77,.2);color:#7fdc8b}
+.pill.tentative{background:rgba(255,255,255,.08);color:var(--muted)}
+.empty{color:var(--muted);padding:20px;text-align:center;border:1px dashed var(--line);border-radius:var(--radius)}
+
+/* edit mode */
+.edit .cue{grid-template-columns:1fr}
+.f{display:grid;gap:8px}
+.f .row{display:grid;grid-template-columns:2fr 1.4fr;gap:8px}
+.f .row3{display:grid;grid-template-columns:1fr 1fr 130px;gap:8px}
+label.l{display:flex;flex-direction:column;gap:3px;font-size:11.5px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+input,select,textarea{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px;text-transform:none;letter-spacing:0;font-weight:400;font-size:14.5px;width:100%}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--gold);outline-offset:-1px}
+textarea{resize:vertical;min-height:42px}
+.stepper{display:flex;gap:4px}
+.stepper input{text-align:center}
+.stepper button{flex:none;width:34px;border:1px solid var(--line);background:var(--panel2);border-radius:8px;cursor:pointer;font-weight:700}
+.ehead{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.ehead .time{font-size:14px}
+.tools{display:flex;gap:4px;flex-wrap:wrap}
+.insert{display:flex;justify-content:center}
+.insert button{border:1px dashed var(--line);background:none;color:var(--muted);border-radius:999px;padding:3px 12px;font-size:12.5px;cursor:pointer}
+.insert button:hover{color:var(--gold);border-color:var(--gold)}
+.evform{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:14px;display:grid;gap:8px;grid-template-columns:repeat(2,1fr)}
+.evform .full{grid-column:1/-1}
+
+/* draft bar */
+.draft{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:30;width:min(940px,calc(100% - 32px));
+  background:#24301f;border:1px solid var(--gold);border-radius:16px;padding:10px 14px;display:none;gap:8px;align-items:center;flex-wrap:wrap;box-shadow:0 10px 40px rgba(0,0,0,.5)}
+.draft.show{display:flex}
+.draft .msg{flex:1;min-width:200px;font-size:13.5px}
+.toast{position:fixed;top:16px;left:50%;transform:translateX(-50%);background:var(--text);color:#111;padding:8px 16px;border-radius:999px;font-weight:600;z-index:50;opacity:0;transition:.25s;pointer-events:none}
+.toast.show{opacity:1}
+
+/* live */
+.live{display:grid;gap:14px}
+.now{background:var(--panel);border:1px solid var(--gold);border-radius:20px;padding:22px;text-align:center}
+.now .lbl{color:var(--gold);font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:12px}
+.now .big{font:800 clamp(26px,6vw,44px)/1.1 "Playfair Display",serif;margin:8px 0 4px}
+.now .count{font:700 clamp(40px,12vw,84px)/1 Inter;font-variant-numeric:tabular-nums;margin:10px 0}
+.now .count.over{color:var(--red)}
+.next{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px 18px;display:flex;justify-content:space-between;gap:10px;align-items:center}
+.livectl{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.next .type{display:block}
+.clock{color:var(--muted);text-align:center;font-variant-numeric:tabular-nums}
+
+footer{color:var(--muted);font-size:12.5px;margin-top:40px;text-align:center}
+footer a{color:var(--gold)}
+
+@media (max-width:640px){
+  header.hero{flex-direction:column;align-items:flex-start;gap:12px}
+  .hero img{width:96px;height:96px}
+  .cue{grid-template-columns:1fr auto;gap:6px 12px}
+  .cue .time{grid-column:1/-1;display:flex;gap:8px;align-items:baseline}
+  .cue .time small{display:inline}
+  .f .row,.f .row3,.evform{grid-template-columns:1fr}
+  .tabs button{padding:7px 11px}
+}
+
+/* print */
+@media print{
+  @page{margin:12mm}
+  body{background:#fff;color:#000;font-size:11.5pt}
+  .bar,.draft,.toast,.insert,.tools,footer,.noprint,.summary{display:none!important}
+  .wrap{padding:0;max-width:none}
+  .hero img{width:80px;height:80px;filter:none}
+  .hero .tag,.who,h2{color:#000}
+  .meta,.evnotes,.notes,.og .d,.og .o,.time small{color:#333}
+  .cue,.og{background:#fff!important;border-color:#bbb;break-inside:avoid;padding:8px 12px}
+  .cue{border-left-color:var(--c)}
+  .script{background:#f6f2e8;color:#000}
+  .pill.tentative{color:#555;background:#eee}
+  .pill.confirmed{color:#16651f;background:#e3f3e5}
+}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"><p style="padding:40px;color:#aaa">Loading program…</p></div>
+<div class="draft" id="draft">
+  <div class="msg">✏️ <b>You have edits saved on this device only.</b> To share them, download the program file and upload it to GitHub.</div>
+  <button class="btn sm primary" data-act="download">Download program.json</button>
+  <button class="btn sm" data-act="copy">Copy</button>
+  <a class="btn sm" id="ghEdit" target="_blank" rel="noopener">Open on GitHub</a>
+  <button class="btn sm danger" data-act="discard">Discard edits</button>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const REPO = "jataylor3416/light-it-up-program";
+const DRAFT_KEY = "liu-program-draft-v1";
+const VIEW_KEY = "liu-view";
+const LIVE_KEY = "liu-live-start";
+
+const TYPES = {
+  performance:{label:"Performance", color:"#e0352b"},
+  music:{label:"Music", color:"#7aa7ff"},
+  host:{label:"Host", color:"#c9c2b3"},
+  moment:{label:"Moment", color:"#f2c66d"},
+  lighting:{label:"Lights on", color:"#ffd65a"},
+  santa:{label:"Santa", color:"#ff5d5d"},
+  activity:{label:"Activity", color:"#3fa34d"},
+  other:{label:"Other", color:"#9aa39b"}
+};
+
+let published = null;   // program.json as on GitHub
+let data = null;        // working copy
+let view = safeGet(VIEW_KEY) || "program";
+let editing = false;
+let liveTimer = null;
+
+function safeGet(k){ try{return localStorage.getItem(k)}catch(e){return null} }
+function safeSet(k,v){ try{ v==null?localStorage.removeItem(k):localStorage.setItem(k,v) }catch(e){} }
+const esc = s => String(s ?? "").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const uid = p => p + Math.random().toString(36).slice(2,8);
+
+async function load(){
+  try{
+    const r = await fetch("program.json?v=" + Date.now(), {cache:"no-store"});
+    published = await r.json();
+  }catch(e){
+    document.getElementById("app").innerHTML = '<p style="padding:40px">Could not load program.json. If you opened this file directly, run it from a web server or GitHub Pages.</p>';
+    return;
+  }
+  const d = safeGet(DRAFT_KEY);
+  data = d ? JSON.parse(d) : structuredClone(published);
+  render();
+}
+
+/* ---------- time math ---------- */
+function startMinutes(){ const [h,m] = (data.event.start||"17:00").split(":").map(Number); return h*60+(m||0); }
+function fmt(min){ min = ((Math.round(min)%1440)+1440)%1440; let h=Math.floor(min/60), m=min%60; const ap=h>=12?"PM":"AM"; h=h%12||12; return h+":"+String(m).padStart(2,"0")+" "+ap; }
+function schedule(){
+  let t = startMinutes();
+  return data.cues.map(c=>{ const s=t; t += Number(c.minutes)||0; return {c, s, e:t}; });
+}
+function fmtDate(iso){
+  if(!iso) return "Date TBD";
+  const d = new Date(iso+"T12:00:00");
+  return d.toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric",year:"numeric"});
+}
+function durText(m){ const h=Math.floor(m/60), mm=m%60; return (h? h+" hr ":"")+(mm||!h? mm+" min":""); }
+
+/* ---------- draft state ---------- */
+function isDirty(){ return JSON.stringify(data) !== JSON.stringify(published); }
+function commit(rerender=true){
+  if(isDirty()) safeSet(DRAFT_KEY, JSON.stringify(data)); else safeSet(DRAFT_KEY, null);
+  updateDraftBar();
+  if(rerender) render();
+}
+function updateDraftBar(){
+  document.getElementById("draft").classList.toggle("show", isDirty());
+  document.getElementById("ghEdit").href = `https://github.com/${REPO}/edit/main/program.json`;
+}
+function toast(msg){ const t=document.getElementById("toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("show"),2200); }
+
+/* ---------- render ---------- */
+function render(){
+  const app = document.getElementById("app");
+  const ev = data.event;
+  const sch = schedule();
+  const total = sch.length ? sch[sch.length-1].e - startMinutes() : 0;
+  const perf = data.cues.filter(c=>c.type==="performance").length;
+  const confirmed = data.cues.filter(c=>c.status==="confirmed").length;
+  const light = sch.find(x=>x.c.type==="lighting");
+
+  app.className = "wrap" + (editing ? " edit":"");
+  app.innerHTML = `
+  <header class="hero">
+    <img src="assets/light-it-up-logo.png" alt="Light It Up! 2026 at Plaza Frida">
+    <div>
+      <h1>${titleHTML(ev.name)}</h1>
+      <div class="tag">${esc(ev.tagline)}</div>
+      <div class="meta">
+        <span>📅 <b>${esc(fmtDate(ev.date))}</b></span>
+        <span>🕔 <b>${fmt(startMinutes())} – ${fmt(startMinutes()+total)}</b></span>
+        <span>📍 ${esc(ev.venue)}</span>
+        <span>🎤 ${esc(ev.hosts)}</span>
+      </div>
+      ${ev.notes ? `<p class="evnotes">${esc(ev.notes)}</p>`:""}
+    </div>
+  </header>
+
+  <div class="bar">
+    <div class="tabs">
+      <button data-view="program" class="${view==="program"?"on":""}">Program</button>
+      <button data-view="live" class="${view==="live"?"on":""}">Live</button>
+    </div>
+    <div class="spacer"></div>
+    ${view==="program" ? `
+      <button class="btn" data-act="print">Print</button>
+      <button class="btn ${editing?"primary":""}" data-act="toggleEdit">${editing?"✓ Done editing":"✏️ Edit"}</button>` : ""}
+  </div>
+
+  ${view==="live" ? liveHTML(sch) : `
+  <div class="summary">
+    <div class="chip"><b>${durText(total)}</b>total run time</div>
+    <div class="chip"><b>${data.cues.length}</b>segments</div>
+    <div class="chip"><b>${perf}</b>performances</div>
+    <div class="chip"><b>${confirmed}/${data.cues.length}</b>confirmed</div>
+    ${light? `<div class="chip"><b>${fmt(light.s)}</b>lights on ✨</div>`:""}
+  </div>
+  ${editing ? eventFormHTML(ev) : ""}
+  <h2>Running all night</h2>
+  <div class="ongoing">${data.ongoing.map(o=> editing? ongoingFormHTML(o) : ongoingHTML(o)).join("")}
+    ${editing? `<button class="btn" data-act="addOngoing" style="align-self:start">+ Add a station</button>`:""}
+  </div>
+  <h2>Run of show</h2>
+  <div class="cues">
+    ${editing ? insertHTML(0) : ""}
+    ${sch.length ? sch.map((x,i)=> (editing? cueFormHTML(x,i) + insertHTML(i+1) : cueHTML(x))).join("") : `<div class="empty">No segments yet.</div>`}
+  </div>`}
+
+  <footer class="noprint">Plaza Frida · Light It Up! · <a href="https://github.com/${REPO}" target="_blank" rel="noopener">Edit this program on GitHub</a></footer>`;
+
+  updateDraftBar();
+  if(view==="live") startLive(); else stopLive();
+}
+
+function titleHTML(name){
+  // color "Light" green, "Up" red like the logo; falls back to plain text
+  const n = esc(name);
+  return n.replace(/^(Light)/i,'<span class="g">$1</span>').replace(/(Up!?)/,'<span class="r">$1</span>');
+}
+function ongoingHTML(o){
+  return `<div class="og"><div class="w">${esc(o.when)}</div><div class="t">${esc(o.title)}</div>
+    ${o.detail?`<div class="d">${esc(o.detail)}</div>`:""}${o.owner?`<div class="o">Lead: ${esc(o.owner)}</div>`:""}</div>`;
+}
+function cueHTML({c,s,e}){
+  const T = TYPES[c.type]||TYPES.other;
+  return `<div class="cue ${c.type==="lighting"?"lighting":""}" style="--c:${T.color}">
+    <div class="time">${fmt(s)}<small>to ${fmt(e)}</small></div>
+    <div>
+      <span class="type">${c.type==="lighting"?"✨ ":""}${T.label}</span>
+      <div class="ctitle">${esc(c.title)}</div>
+      ${c.who?`<div class="who">${esc(c.who)}</div>`:""}
+      ${c.script?`<div class="script">🎤 ${esc(c.script)}</div>`:""}
+      ${c.notes?`<div class="notes">${esc(c.notes)}</div>`:""}
+    </div>
+    <div class="right"><span class="mins">${c.minutes} min</span><span class="pill ${c.status}">${c.status==="confirmed"?"Confirmed":"Tentative"}</span></div>
+  </div>`;
+}
+
+/* edit forms — inputs carry data-path so one handler updates everything */
+function eventFormHTML(ev){
+  const f=(k,l,type="text",cls="")=>`<label class="l ${cls}">${l}<input type="${type}" data-ev="${k}" value="${esc(ev[k])}"></label>`;
+  return `<h2>Event details</h2><div class="evform">
+    ${f("name","Event name","text","full")}${f("tagline","Tagline","text","full")}
+    ${f("date","Date","date")}${f("start","Start time","time")}
+    ${f("venue","Venue")}${f("hosts","Hosts")}
+    <label class="l full">Notes at top<textarea data-ev="notes" rows="2">${esc(ev.notes)}</textarea></label>
+  </div>`;
+}
+function ongoingFormHTML(o){
+  return `<div class="og f" data-oid="${o.id}">
+    <label class="l">Station<input data-of="title" value="${esc(o.title)}"></label>
+    <label class="l">When<input data-of="when" value="${esc(o.when)}"></label>
+    <label class="l">Details<textarea data-of="detail" rows="2">${esc(o.detail)}</textarea></label>
+    <label class="l">Lead<input data-of="owner" value="${esc(o.owner)}"></label>
+    <div class="tools"><button class="btn sm danger" data-act="delOngoing">Remove</button></div>
+  </div>`;
+}
+function cueFormHTML({c,s,e},i){
+  const T = TYPES[c.type]||TYPES.other;
+  const opts = Object.entries(TYPES).map(([k,v])=>`<option value="${k}" ${k===c.type?"selected":""}>${v.label}</option>`).join("");
+  return `<div class="cue f" style="--c:${T.color}" data-cid="${c.id}">
+    <div class="ehead">
+      <div class="time">#${i+1} · ${fmt(s)} – ${fmt(e)}</div>
+      <div class="tools">
+        <button class="btn sm" data-act="up" ${i===0?"disabled":""} title="Move up">↑</button>
+        <button class="btn sm" data-act="down" ${i===data.cues.length-1?"disabled":""} title="Move down">↓</button>
+        <button class="btn sm" data-act="dup">Duplicate</button>
+        <button class="btn sm danger" data-act="del">Delete</button>
+      </div>
+    </div>
+    <div class="row">
+      <label class="l">Segment<input data-cf="title" value="${esc(c.title)}"></label>
+      <label class="l">Performer / names<input data-cf="who" value="${esc(c.who)}"></label>
+    </div>
+    <div class="row3">
+      <label class="l">Type<select data-cf="type">${opts}</select></label>
+      <label class="l">Status<select data-cf="status">
+        <option value="tentative" ${c.status!=="confirmed"?"selected":""}>Tentative</option>
+        <option value="confirmed" ${c.status==="confirmed"?"selected":""}>Confirmed</option></select></label>
+      <label class="l">Minutes<div class="stepper"><button data-act="minus">−</button><input type="number" min="0" step="1" data-cf="minutes" value="${c.minutes}"><button data-act="plus">+</button></div></label>
+    </div>
+    <label class="l">Host script (what the MC says)<textarea data-cf="script" rows="2">${esc(c.script)}</textarea></label>
+    <label class="l">Notes / cues for crew<textarea data-cf="notes" rows="2">${esc(c.notes)}</textarea></label>
+  </div>`;
+}
+function insertHTML(at){ return `<div class="insert"><button data-act="insert" data-at="${at}">+ Add segment here</button></div>`; }
+
+/* ---------- live view ---------- */
+function liveBase(){
+  const saved = Number(safeGet(LIVE_KEY));
+  if(saved) return saved;
+  const d = new Date((data.event.date||"2026-12-05")+"T00:00:00");
+  return d.getTime() + startMinutes()*60000;
+}
+function liveHTML(){ return `<div class="live" id="live"></div>`; }
+function startLive(){ stopLive(); tickLive(); liveTimer = setInterval(tickLive, 1000); }
+function stopLive(){ if(liveTimer) clearInterval(liveTimer); liveTimer=null; }
+function tickLive(){
+  const el = document.getElementById("live"); if(!el) return stopLive();
+  const sch = schedule(), base = liveBase(), now = Date.now();
+  const offs = sch.map(x=>({...x, so:(x.s-startMinutes())*60000, eo:(x.e-startMinutes())*60000}));
+  const elapsed = now - base;
+  const idx = offs.findIndex(x=> elapsed < x.eo);
+  const manual = !!Number(safeGet(LIVE_KEY));
+  const clock = new Date(now).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit",second:"2-digit"});
+  const showStart = new Date(base).toLocaleString("en-US",{weekday:"short",month:"short",day:"numeric",hour:"numeric",minute:"2-digit"});
+  const ctl = `<div class="livectl">
+      <button class="btn" data-act="liveBack">◀ Back</button>
+      <button class="btn primary" data-act="liveStart">${manual?"Restart from top":"Start show now"}</button>
+      <button class="btn" data-act="liveNext">Next ▶</button>
+      ${manual?`<button class="btn" data-act="liveReset">Use scheduled time</button>`:""}
+    </div>
+    <div class="clock">Now ${clock} · show start ${showStart}${manual?" (started manually)":" (scheduled)"}</div>`;
+  if(elapsed < 0){
+    const ms=-elapsed, d=Math.floor(ms/864e5), h=Math.floor(ms/36e5)%24, m=Math.floor(ms/6e4)%60, s=Math.floor(ms/1e3)%60;
+    el.innerHTML = `<div class="now"><div class="lbl">Show starts in</div>
+      <div class="count">${d?d+"d ":""}${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}</div>
+      <div>First up: <b>${esc(offs[0]?.c.title||"—")}</b></div></div>${ctl}`;
+    return;
+  }
+  if(idx === -1){
+    el.innerHTML = `<div class="now"><div class="lbl">Program complete</div><div class="big">¡Feliz Navidad! 🎄</div></div>${ctl}`;
+    return;
+  }
+  const cur = offs[idx], nxt = offs[idx+1];
+  const left = Math.max(0, cur.eo - elapsed);
+  const mm = Math.floor(left/6e4), ss = Math.floor(left/1e3)%60;
+  el.dataset.idx = idx;
+  el.innerHTML = `<div class="now" style="border-color:${(TYPES[cur.c.type]||TYPES.other).color}">
+      <div class="lbl">Now · ${idx+1} of ${offs.length} · ${(TYPES[cur.c.type]||TYPES.other).label}</div>
+      <div class="big">${esc(cur.c.title)}</div>
+      ${cur.c.who?`<div class="who">${esc(cur.c.who)}</div>`:""}
+      <div class="count ${left<60000?"over":""}">${mm}:${String(ss).padStart(2,"0")}</div>
+      ${cur.c.script?`<div class="script" style="text-align:left">🎤 ${esc(cur.c.script)}</div>`:""}
+      ${cur.c.notes?`<div class="notes">${esc(cur.c.notes)}</div>`:""}
+    </div>
+    ${nxt?`<div class="next"><div><div class="type" style="--c:${(TYPES[nxt.c.type]||TYPES.other).color}">Up next</div><b>${esc(nxt.c.title)}</b>${nxt.c.who?` · <span class="who">${esc(nxt.c.who)}</span>`:""}</div><div class="mins">${nxt.c.minutes} min</div></div>`:""}
+    ${ctl}`;
+}
+function jumpTo(i){
+  const sch = schedule(); i = Math.max(0, Math.min(i, sch.length-1));
+  safeSet(LIVE_KEY, String(Date.now() - (sch[i].s - startMinutes())*60000));
+  tickLive();
+}
+
+/* ---------- events ---------- */
+document.addEventListener("click", e=>{
+  const b = e.target.closest("[data-act],[data-view]"); if(!b) return;
+  if(b.dataset.view){ view=b.dataset.view; safeSet(VIEW_KEY,view); editing=false; render(); return; }
+  const act = b.dataset.act;
+  const cueEl = b.closest("[data-cid]"), ci = cueEl ? data.cues.findIndex(c=>c.id===cueEl.dataset.cid) : -1;
+  const ogEl = b.closest("[data-oid]");
+  switch(act){
+    case "toggleEdit": editing=!editing; render(); break;
+    case "print": editing=false; render(); setTimeout(()=>window.print(),50); break;
+    case "up": if(ci>0){ [data.cues[ci-1],data.cues[ci]]=[data.cues[ci],data.cues[ci-1]]; commit(); } break;
+    case "down": if(ci<data.cues.length-1){ [data.cues[ci+1],data.cues[ci]]=[data.cues[ci],data.cues[ci+1]]; commit(); } break;
+    case "dup": data.cues.splice(ci+1,0,{...structuredClone(data.cues[ci]), id:uid("c")}); commit(); break;
+    case "del": if(confirm(`Delete "${data.cues[ci].title}"?`)){ data.cues.splice(ci,1); commit(); } break;
+    case "minus": case "plus": {
+      const c=data.cues[ci]; c.minutes=Math.max(0,(Number(c.minutes)||0)+(act==="plus"?1:-1)); commit(); break; }
+    case "insert": data.cues.splice(Number(b.dataset.at),0,{id:uid("c"),type:"performance",title:"New segment",who:"",minutes:5,status:"tentative",script:"",notes:""}); commit();
+      setTimeout(()=>{ const el=document.querySelectorAll(".cue.f")[Number(b.dataset.at)]; el?.scrollIntoView({block:"center"}); el?.querySelector("input")?.select(); },30); break;
+    case "addOngoing": data.ongoing.push({id:uid("o"),title:"New station",when:"All night",detail:"",owner:""}); commit(); break;
+    case "delOngoing": data.ongoing = data.ongoing.filter(o=>o.id!==ogEl.dataset.oid); commit(); break;
+    case "download": {
+      const blob=new Blob([JSON.stringify(data,null,2)+"\n"],{type:"application/json"});
+      const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="program.json"; a.click(); URL.revokeObjectURL(a.href);
+      toast("Downloaded program.json"); break; }
+    case "copy": navigator.clipboard.writeText(JSON.stringify(data,null,2)).then(()=>toast("Copied. Paste it into program.json on GitHub"),()=>toast("Copy failed. Use Download instead")); break;
+    case "discard": if(confirm("Throw away your edits and go back to the published program?")){ data=structuredClone(published); commit(); toast("Edits discarded"); } break;
+    case "liveStart": jumpTo(0); break;
+    case "liveNext": { const i=Number(document.getElementById("live")?.dataset.idx ?? -1); jumpTo(i+1); break; }
+    case "liveBack": { const i=Number(document.getElementById("live")?.dataset.idx ?? 1); jumpTo(i-1); break; }
+    case "liveReset": safeSet(LIVE_KEY,null); tickLive(); break;
+  }
+});
+
+// typing: update data without re-rendering (keeps focus); re-render times on change
+document.addEventListener("input", e=>{
+  const t=e.target;
+  if(t.dataset.ev){ data.event[t.dataset.ev]=t.value; commit(false); }
+  else if(t.dataset.cf){ const id=t.closest("[data-cid]").dataset.cid; const c=data.cues.find(c=>c.id===id);
+    c[t.dataset.cf] = t.dataset.cf==="minutes" ? Math.max(0,Number(t.value)||0) : t.value; commit(false); }
+  else if(t.dataset.of){ const id=t.closest("[data-oid]").dataset.oid; data.ongoing.find(o=>o.id===id)[t.dataset.of]=t.value; commit(false); }
+});
+document.addEventListener("change", e=>{
+  const t=e.target;
+  if(t.dataset.cf==="minutes"||t.dataset.cf==="type"||t.dataset.cf==="status"||t.dataset.ev==="start"||t.dataset.ev==="date"||t.dataset.ev==="name"){
+    const y=window.scrollY; render(); window.scrollTo(0,y);
+  }
+});
+
+load();
+</script>
+</body>
+</html>

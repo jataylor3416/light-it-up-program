@@ -1,0 +1,166 @@
+{
+  "event": {
+    "name": "Light It Up! 2026",
+    "tagline": "2nd Annual Tree Lighting · 2° Encendido del Árbol",
+    "date": "2026-12-05",
+    "start": "17:00",
+    "venue": "Plaza Frida · Little Rock, AR",
+    "hosts": "Jamie Taylor · Co-host TBD",
+    "notes": "Draft run of show. Times are estimates except where marked Confirmed. Sunset is about 4:55 PM, so the plaza is dark before the lighting."
+  },
+  "ongoing": [
+    {
+      "id": "o1",
+      "title": "Letters to Santa table",
+      "detail": "Kids write a letter and seal it in an envelope. Supplies: paper, envelopes, markers, collection box.",
+      "when": "All night",
+      "owner": "TBD"
+    },
+    {
+      "id": "o2",
+      "title": "Background music",
+      "detail": "Holiday playlist between performances. Lower it during host announcements.",
+      "when": "Between segments",
+      "owner": "DJ / sound TBD"
+    },
+    {
+      "id": "o3",
+      "title": "Christmas tree (center of plaza)",
+      "detail": "Stays dark until the lighting cue. Check power and the switch before 4:30 PM.",
+      "when": "Lights on at the lighting cue",
+      "owner": "TBD"
+    }
+  ],
+  "cues": [
+    {
+      "id": "c1",
+      "type": "music",
+      "title": "Gates open · holiday music",
+      "who": "DJ / sound",
+      "minutes": 15,
+      "status": "tentative",
+      "script": "",
+      "notes": "Food trucks and vendors open. Letters to Santa table is staffed."
+    },
+    {
+      "id": "c2",
+      "type": "host",
+      "title": "Welcome & opening",
+      "who": "Hosts",
+      "minutes": 5,
+      "status": "tentative",
+      "script": "¡Buenas noches, Little Rock! Welcome to Light It Up at Plaza Frida, our 2nd annual tree lighting. Bienvenidos al segundo Encendido del Árbol...",
+      "notes": "Thank sponsors. Point people to the Letters to Santa table."
+    },
+    {
+      "id": "c3",
+      "type": "performance",
+      "title": "Dance performance",
+      "who": "EstiloE",
+      "minutes": 7,
+      "status": "confirmed",
+      "script": "Please welcome to the stage... EstiloE!",
+      "notes": "7-minute set."
+    },
+    {
+      "id": "c4",
+      "type": "host",
+      "title": "Thank-you & intro",
+      "who": "Hosts",
+      "minutes": 2,
+      "status": "tentative",
+      "script": "Give it up for EstiloE! Up next, a voice you're going to love...",
+      "notes": ""
+    },
+    {
+      "id": "c5",
+      "type": "performance",
+      "title": "Live music · 2 songs",
+      "who": "Sarita",
+      "minutes": 8,
+      "status": "tentative",
+      "script": "Please welcome Sarita!",
+      "notes": "Song titles: TBD. Song 1: ___  Song 2: ___"
+    },
+    {
+      "id": "c6",
+      "type": "music",
+      "title": "Music break",
+      "who": "DJ / sound",
+      "minutes": 8,
+      "status": "tentative",
+      "script": "",
+      "notes": "Clear and set the space for the horse. Hosts remind families about the Letters to Santa table."
+    },
+    {
+      "id": "c7",
+      "type": "performance",
+      "title": "Dancing horse performance",
+      "who": "Performer name TBD",
+      "minutes": 10,
+      "status": "tentative",
+      "script": "Everyone please stay behind the line. Here comes something special...",
+      "notes": "Keep a clear perimeter. Confirm the length and the music cue with the handler."
+    },
+    {
+      "id": "c8",
+      "type": "moment",
+      "title": "Candles handed out",
+      "who": "Volunteers",
+      "minutes": 5,
+      "status": "tentative",
+      "script": "Our volunteers are coming around with candles. Grab one for everyone in your family.",
+      "notes": "Candle type (real or LED): TBD."
+    },
+    {
+      "id": "c9",
+      "type": "moment",
+      "title": "Candlelight sing-along",
+      "who": "Everyone",
+      "minutes": 4,
+      "status": "tentative",
+      "script": "Let's raise our candles and sing together...",
+      "notes": "Song: TBD (e.g. Noche de Paz / Silent Night). Put the lyrics on screen or a printed card."
+    },
+    {
+      "id": "c10",
+      "type": "lighting",
+      "title": "Countdown · LIGHT IT UP!",
+      "who": "Hosts + crowd",
+      "minutes": 3,
+      "status": "tentative",
+      "script": "Count down with me! 10, 9, 8... 3, 2, 1... ¡LIGHT IT UP!",
+      "notes": "The tree AND all the plaza lights come on at \"1\". Confirm who flips the switch."
+    },
+    {
+      "id": "c11",
+      "type": "santa",
+      "title": "Santa arrives!",
+      "who": "Santa",
+      "minutes": 5,
+      "status": "tentative",
+      "script": "Wait... do you hear that? I think someone special saw our lights...",
+      "notes": "Santa's entrance route: TBD."
+    },
+    {
+      "id": "c12",
+      "type": "activity",
+      "title": "Photos with Santa & letter drop-off",
+      "who": "Santa + volunteers",
+      "minutes": 30,
+      "status": "tentative",
+      "script": "",
+      "notes": "Kids hand Santa their letters. Background music continues."
+    },
+    {
+      "id": "c13",
+      "type": "host",
+      "title": "Thank you & goodnight",
+      "who": "Hosts",
+      "minutes": 3,
+      "status": "tentative",
+      "script": "Thank you for lighting up Plaza Frida with us! ¡Feliz Navidad!",
+      "notes": "Thank sponsors, vendors, and performers again."
+    }
+  ]
+}
